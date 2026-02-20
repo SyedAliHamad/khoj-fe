@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Eye, EyeOff, ArrowRight } from "lucide-react"
@@ -8,7 +8,7 @@ import { useAuth } from "@/lib/auth-context"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { login } = useAuth()
@@ -139,5 +139,23 @@ export default function LoginPage() {
       </main>
       <SiteFooter />
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen">
+          <SiteHeader />
+          <main className="flex min-h-[60vh] items-center justify-center">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-foreground border-t-transparent" />
+          </main>
+          <SiteFooter />
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   )
 }
