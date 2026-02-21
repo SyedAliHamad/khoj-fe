@@ -1,4 +1,4 @@
-import { api, getAccessToken } from "./client"
+import { api, getAccessToken, getApiBaseUrl } from "./client"
 import type {
   ApiProduct,
   CreateProductRequest,
@@ -13,7 +13,7 @@ export const adminApi = {
     const formData = new FormData()
     formData.append("file", file)
     const token = getAccessToken()
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "/api"}/admin/upload`, {
+    const res = await fetch(`${getApiBaseUrl()}/admin/upload`, {
       method: "POST",
       headers: token ? { Authorization: `Bearer ${token}` } : {},
       credentials: "include",

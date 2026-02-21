@@ -1,6 +1,12 @@
 import type { ApiResponse } from "./types"
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "/api"
+/** API base URL - use this everywhere to ensure consistent env handling */
+export function getApiBaseUrl(): string {
+  const url = process.env.NEXT_PUBLIC_API_BASE_URL || "/api"
+  return url.replace(/\/$/, "") // strip trailing slash to avoid // in paths
+}
+
+const BASE_URL = getApiBaseUrl()
 
 // In-memory access token (never stored in localStorage)
 let accessToken: string | null = null
