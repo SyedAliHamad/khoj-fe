@@ -6,6 +6,7 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { contentApi } from "@/lib/api/content"
 import type { CategoryImage } from "@/lib/api/content"
+import { getDisplayImageUrl } from "@/lib/image-utils"
 
 export function CategoriesSection() {
   const [categories, setCategories] = useState<CategoryImage[]>([])
@@ -56,7 +57,7 @@ export function CategoriesSection() {
               >
                 <div className="relative aspect-[4/5] md:aspect-[3/4]">
                   <Image
-                    src={cat.image ?? "/placeholder.svg"}
+                    src={getDisplayImageUrl(cat.image)}
                     alt={cat.name}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"

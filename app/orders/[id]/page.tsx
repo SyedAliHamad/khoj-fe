@@ -15,6 +15,7 @@ import {
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { ordersApi } from "@/lib/api/orders"
+import { getDisplayImageUrl } from "@/lib/image-utils"
 import type { Order } from "@/lib/api/types"
 
 const TRACKING_ICONS: Record<string, typeof Package> = {
@@ -172,7 +173,7 @@ export default function OrderDetailPage({
                         className="relative h-20 w-16 shrink-0 overflow-hidden bg-muted"
                       >
                         <Image
-                          src={item.productImage}
+                          src={getDisplayImageUrl(item.productImage)}
                           alt={item.productName}
                           fill
                           sizes="64px"

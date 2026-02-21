@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { contentApi } from "@/lib/api/content"
+import { getDisplayImageUrl } from "@/lib/image-utils"
 
 const DEFAULTS = {
   image: "/placeholder.svg",
@@ -40,7 +41,7 @@ export function LookbookSection() {
         <div className="relative overflow-hidden">
           <div className="relative aspect-[16/9] min-h-[400px] md:aspect-[21/9]">
             <Image
-              src={content.image}
+              src={getDisplayImageUrl(content.image)}
               alt={content.title}
               fill
               sizes="100vw"

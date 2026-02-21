@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { contentApi } from "@/lib/api/content"
+import { getDisplayImageUrl } from "@/lib/image-utils"
 
 const DEFAULTS = {
   image: "/placeholder.svg",
@@ -41,7 +42,7 @@ export function HeroSection() {
     <section className="relative">
       <div className="relative h-[85vh] min-h-[600px] w-full overflow-hidden">
         <Image
-          src={content.image}
+          src={getDisplayImageUrl(content.image)}
           alt="Hero"
           fill
           sizes="100vw"

@@ -7,6 +7,7 @@ import { Package, ArrowRight, ShoppingBag } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { ordersApi } from "@/lib/api/orders"
+import { getDisplayImageUrl } from "@/lib/image-utils"
 import type { Order } from "@/lib/api/types"
 
 const STATUS_STYLES: Record<string, { bg: string; text: string }> = {
@@ -127,7 +128,7 @@ export default function OrdersPage() {
                             className="relative h-12 w-10 overflow-hidden border border-background bg-muted"
                           >
                             <Image
-                              src={item.productImage}
+                              src={getDisplayImageUrl(item.productImage)}
                               alt={item.productName}
                               fill
                               sizes="40px"

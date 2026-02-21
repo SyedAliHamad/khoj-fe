@@ -8,9 +8,11 @@ export type { SizeGuideEntry }
 
 export type Product = ApiProduct
 
+import { getDisplayImageUrl } from "./image-utils"
+
 /** Get primary image URL from product */
 export function getProductImage(product: Product): string {
-  return product.images?.[0]?.url ?? "/placeholder.svg"
+  return getDisplayImageUrl(product.images?.[0]?.url)
 }
 
 /** Map ApiProduct to cart-friendly shape */

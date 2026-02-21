@@ -20,6 +20,7 @@ import { SizeGuideDialog } from "@/components/size-guide-dialog"
 import { useCart } from "@/lib/cart-context"
 import { productsApi } from "@/lib/api/products"
 import { getProductImage } from "@/lib/products"
+import { getDisplayImageUrl } from "@/lib/image-utils"
 import type { ApiProduct } from "@/lib/api/types"
 
 function RelatedProductCard({ product }: { product: ApiProduct }) {
@@ -158,10 +159,10 @@ export default function ProductDetailPage() {
             <div className="space-y-3">
               <div className="relative aspect-[3/4] overflow-hidden bg-muted">
                 <Image
-                  src={
+                  src={getDisplayImageUrl(
                     product.images?.[activeImage]?.url ??
                     getProductImage(product)
-                  }
+                  )}
                   alt={`${product.name} - Image ${activeImage + 1}`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -184,7 +185,7 @@ export default function ProductDetailPage() {
                       aria-label={`View image ${idx + 1}`}
                     >
                       <Image
-                        src={img.url}
+                        src={getDisplayImageUrl(img.url)}
                         alt={img.alt ?? `${product.name} thumbnail ${idx + 1}`}
                         fill
                         sizes="80px"
