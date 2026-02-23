@@ -337,7 +337,7 @@ export default function ProductDetailPage() {
                 </button>
                 {detailsOpen && (
                   <ul className="space-y-2.5 pb-5">
-                    {product.details.map((detail) => (
+                    {(product.details ?? []).map((detail) => (
                       <li
                         key={detail}
                         className="flex items-start gap-2 text-sm leading-relaxed text-muted-foreground"
@@ -435,7 +435,7 @@ export default function ProductDetailPage() {
         isOpen={sizeGuideOpen}
         onClose={() => setSizeGuideOpen(false)}
         productName={product.name}
-        sizeGuide={product.sizeGuide}
+        sizeGuide={product.sizeGuide ?? []}
       />
     </div>
   )

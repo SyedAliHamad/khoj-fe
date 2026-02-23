@@ -7,21 +7,22 @@ interface SizeGuideDialogProps {
   isOpen: boolean
   onClose: () => void
   productName: string
-  sizeGuide: SizeGuideEntry[]
+  sizeGuide?: SizeGuideEntry[] | null
 }
 
 export function SizeGuideDialog({
   isOpen,
   onClose,
   productName,
-  sizeGuide,
+  sizeGuide = [],
 }: SizeGuideDialogProps) {
   if (!isOpen) return null
 
-  const hasChest = sizeGuide.some((s) => s.chest !== "N/A")
-  const hasWaist = sizeGuide.some((s) => s.waist !== "N/A")
-  const hasHips = sizeGuide.some((s) => s.hips !== "N/A")
-  const hasShoulder = sizeGuide.some((s) => s.shoulder !== "N/A")
+  const guide = sizeGuide ?? []
+  const hasChest = guide.some((s) => s.chest !== "N/A")
+  const hasWaist = guide.some((s) => s.waist !== "N/A")
+  const hasHips = guide.some((s) => s.hips !== "N/A")
+  const hasShoulder = guide.some((s) => s.shoulder !== "N/A")
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center">
@@ -104,7 +105,7 @@ export function SizeGuideDialog({
               </tr>
             </thead>
             <tbody>
-              {sizeGuide.map((entry) => (
+              {guide.map((entry) => (
                 <tr
                   key={entry.size}
                   className="border-b border-border last:border-0"
