@@ -52,18 +52,18 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-foreground/10" />
         <div className="absolute inset-0 flex flex-col items-center justify-end pb-16 text-center md:pb-24">
           <div className="space-y-6 px-6">
-            <p className="text-xs tracking-[0.3em] uppercase text-background/90">
+            <p className="text-xs tracking-[0.3em] uppercase text-[#5c4a3a]">
               {content.subtitle}
             </p>
-            <h2 className="font-serif text-4xl leading-tight text-background md:text-6xl lg:text-7xl">
+            <h2 className="font-serif text-4xl leading-tight text-[#5c4a3a] md:text-6xl lg:text-7xl">
               <span className="text-balance">{content.title}</span>
             </h2>
-            <p className="mx-auto max-w-md text-sm leading-relaxed text-background/80">
+            <p className="mx-auto max-w-md text-sm leading-relaxed text-[#5c4a3a]">
               {content.description}
             </p>
             <Link
               href={content.ctaHref}
-              className="group inline-flex items-center gap-2 border border-background/50 bg-background/10 px-8 py-3 text-xs tracking-[0.2em] uppercase text-background backdrop-blur-sm transition-all hover:bg-background hover:text-foreground"
+              className="group inline-flex items-center gap-2 border border-[#5c4a3a] bg-white/20 px-8 py-3 text-xs tracking-[0.2em] uppercase text-[#5c4a3a] backdrop-blur-sm transition-all hover:bg-[#5c4a3a] hover:text-white"
             >
               {content.ctaText}
               <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />

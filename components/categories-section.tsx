@@ -65,10 +65,10 @@ export function CategoriesSection() {
                   />
                   <div className="absolute inset-0 bg-foreground/20 transition-colors group-hover:bg-foreground/30" />
                   <div className="absolute inset-0 flex flex-col items-center justify-end pb-12">
-                    <h3 className="mb-2 font-serif text-3xl text-background md:text-4xl">
+                    <h3 className="mb-2 font-serif text-3xl text-[#5c4a3a] md:text-4xl">
                       {cat.name}
                     </h3>
-                    <span className="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-background/90 transition-colors group-hover:text-background">
+                    <span className="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-[#5c4a3a] transition-colors group-hover:text-[#5c4a3a]">
                       Shop Now
                       <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                     </span>

@@ -19,8 +19,9 @@ import { SiteFooter } from "@/components/site-footer"
 import { SizeGuideDialog } from "@/components/size-guide-dialog"
 import { useCart } from "@/lib/cart-context"
 import { productsApi } from "@/lib/api/products"
-import { getProductImage } from "@/lib/products"
+import { getProductImage, getProductPricing } from "@/lib/products"
 import { getDisplayImageUrl } from "@/lib/image-utils"
+import { ProductPrice } from "@/components/product-price"
 import type { ApiProduct } from "@/lib/api/types"
 
 function RelatedProductCard({ product }: { product: ApiProduct }) {
@@ -57,9 +58,7 @@ function RelatedProductCard({ product }: { product: ApiProduct }) {
       </Link>
       <div className="mt-4 space-y-1">
         <h3 className="text-sm font-normal">{product.name}</h3>
-        <p className="text-sm text-muted-foreground">
-          PKR {product.price.toLocaleString()}
-        </p>
+        <ProductPrice product={product} />
       </div>
     </div>
   )
@@ -126,6 +125,7 @@ export default function ProductDetailPage() {
   }
 
   const sizes = product.sizes?.length ? product.sizes : ["XS", "S", "M", "L", "XL"]
+  const pricing = getProductPricing(product)
 
   return (
     <div className="min-h-screen">
@@ -158,6 +158,11 @@ export default function ProductDetailPage() {
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
             <div className="space-y-3">
               <div className="relative aspect-[3/4] overflow-hidden bg-muted">
+                {pricing.isOnSale && (
+                  <span className="absolute left-3 top-3 z-10 rounded bg-foreground px-3 py-1 text-[10px] tracking-[0.15em] uppercase text-background">
+                    {pricing.discountPercent}% off
+                  </span>
+                )}
                 <Image
                   src={getDisplayImageUrl(
                     product.images?.[activeImage]?.url ??
@@ -206,17 +211,27 @@ export default function ProductDetailPage() {
                 Back to Collection
               </Link>
 
-              {product.tags?.[0] && (
-                <span className="mb-4 inline-block w-fit bg-foreground px-3 py-1 text-[10px] tracking-[0.15em] uppercase text-background">
-                  {product.tags[0]}
+              {pricing.isOnSale ? (
+                <span className="mb-4 inline-block w-fit rounded bg-foreground px-3 py-1 text-[10px] tracking-[0.15em] uppercase text-background">
+                  {pricing.discountPercent}% off
                 </span>
+              ) : (
+                product.tags?.[0] && (
+                  <span className="mb-4 inline-block w-fit bg-foreground px-3 py-1 text-[10px] tracking-[0.15em] uppercase text-background">
+                    {product.tags[0]}
+                  </span>
+                )
               )}
 
               <h1 className="font-serif text-3xl md:text-4xl">{product.name}</h1>
 
-              <p className="mt-3 text-lg text-muted-foreground">
-                PKR {product.price.toLocaleString()}
-              </p>
+              <div className="mt-3">
+                <ProductPrice
+                  product={product}
+                  size="md"
+                  showBadge={false}
+                />
+              </div>
 
               <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
                 {product.description}

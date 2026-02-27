@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Plus, Pencil, Trash2 } from "lucide-react"
 import { adminApi } from "@/lib/api/admin"
-import { getProductImage } from "@/lib/products"
+import { getProductImage, getProductPricing } from "@/lib/products"
 import type { ApiProduct } from "@/lib/api/types"
 import { toast } from "sonner"
 
@@ -112,7 +112,25 @@ export default function AdminProductsPage() {
                     {product.category}
                   </td>
                   <td className="py-4 text-sm">
-                    PKR {product.price.toLocaleString()}
+                    {(() => {
+                      const { isOnSale, salePrice, originalPrice } =
+                        getProductPricing(product)
+                      return isOnSale ? (
+                        <span>
+                          <span className="font-medium">
+                            PKR {salePrice.toLocaleString()}
+                          </span>
+                          <span className="ml-1 text-muted-foreground line-through">
+                            PKR {originalPrice!.toLocaleString()}
+                          </span>
+                          <span className="ml-1.5 rounded bg-foreground/10 px-1.5 py-0.5 text-[10px] uppercase text-foreground">
+                            Sale
+                          </span>
+                        </span>
+                      ) : (
+                        `PKR ${product.price.toLocaleString()}`
+                      )
+                    })()}
                   </td>
                   <td className="py-4 text-sm">
                     {product.inStock ? "In stock" : "Out of stock"}

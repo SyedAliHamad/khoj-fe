@@ -6,7 +6,8 @@ import Link from "next/link"
 import { Heart, ArrowRight } from "lucide-react"
 import { useCart } from "@/lib/cart-context"
 import { productsApi } from "@/lib/api/products"
-import { getProductImage } from "@/lib/products"
+import { getProductImage, getProductPricing } from "@/lib/products"
+import { ProductPrice } from "@/components/product-price"
 import type { ApiProduct } from "@/lib/api/types"
 
 function ProductCard({ product }: { product: ApiProduct }) {
@@ -15,6 +16,7 @@ function ProductCard({ product }: { product: ApiProduct }) {
   const { addItem } = useCart()
   const [primaryImage] = product.images
   const tag = product.tags?.[0] ?? null
+  const { isOnSale, discountPercent } = getProductPricing(product)
 
   return (
     <div
@@ -31,10 +33,16 @@ function ProductCard({ product }: { product: ApiProduct }) {
             sizes="(max-width: 768px) 50vw, 33vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          {tag && (
-            <span className="absolute left-3 top-3 bg-foreground px-3 py-1 text-[10px] tracking-[0.15em] uppercase text-background">
-              {tag}
+          {isOnSale ? (
+            <span className="absolute left-3 top-3 rounded bg-foreground px-3 py-1 text-[10px] tracking-[0.15em] uppercase text-background">
+              {discountPercent}% off
             </span>
+          ) : (
+            tag && (
+              <span className="absolute left-3 top-3 bg-foreground px-3 py-1 text-[10px] tracking-[0.15em] uppercase text-background">
+                {tag}
+              </span>
+            )
           )}
           <button
             type="button"
@@ -68,9 +76,7 @@ function ProductCard({ product }: { product: ApiProduct }) {
       </Link>
       <div className="mt-4 space-y-1">
         <h3 className="text-sm font-normal">{product.name}</h3>
-        <p className="text-sm text-muted-foreground">
-          PKR {product.price.toLocaleString()}
-        </p>
+        <ProductPrice product={product} />
       </div>
     </div>
   )

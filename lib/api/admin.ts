@@ -19,8 +19,21 @@ export const adminApi = {
       credentials: "include",
       body: formData,
     })
-    const data = await res.json()
-    return data as { code: number; data: { url: string } | null; message: string }
+    let data: { code: number; data: { url: string } | null; message: string }
+    try {
+      data = await res.json()
+    } catch {
+      return {
+        code: res.status,
+        data: null,
+        message: res.status === 401
+          ? "Please sign in"
+          : res.status === 403
+            ? "Admin access required"
+            : `Server error (${res.status})`,
+      }
+    }
+    return data
   },
   listProducts: () =>
     api.get<PaginatedResponse<ApiProduct>>("/admin/products"),

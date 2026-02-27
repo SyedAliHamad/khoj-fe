@@ -49,15 +49,15 @@ export function LookbookSection() {
             />
             <div className="absolute inset-0 bg-foreground/15" />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-8 md:p-16">
-              <p className="mb-2 text-xs tracking-[0.3em] uppercase text-background/80">
+              <p className="mb-2 text-xs tracking-[0.3em] uppercase text-[#5c4a3a]">
                 {content.season}
               </p>
-              <h2 className="mb-4 font-serif text-3xl text-background md:text-5xl">
+              <h2 className="mb-4 font-serif text-3xl text-[#5c4a3a] md:text-5xl">
                 {content.title}
               </h2>
               <Link
                 href={content.ctaHref}
-                className="group inline-flex items-center gap-2 border border-background/50 px-6 py-2.5 text-xs tracking-[0.2em] uppercase text-background transition-all hover:bg-background hover:text-foreground"
+                className="group inline-flex items-center gap-2 border border-[#5c4a3a] px-6 py-2.5 text-xs tracking-[0.2em] uppercase text-[#5c4a3a] transition-all hover:bg-[#5c4a3a] hover:text-white"
               >
                 {content.ctaText}
                 <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />

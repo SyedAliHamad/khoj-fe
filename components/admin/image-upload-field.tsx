@@ -18,7 +18,11 @@ export function ImageUploadField({ label, value, onChange }: ImageUploadFieldPro
   async function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file || !file.type.startsWith("image/")) {
-      toast.error("Please select an image file")
+      toast.error("Please select an image file (JPEG, PNG, WebP, or GIF)")
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image must be under 5MB")
       return
     }
     setUploading(true)
@@ -27,11 +31,19 @@ export function ImageUploadField({ label, value, onChange }: ImageUploadFieldPro
       if (res.code === 200 && res.data?.url) {
         onChange(res.data.url)
         toast.success("Image uploaded")
+      } else if (res.code === 401) {
+        toast.error("Please sign in as admin to upload images")
+      } else if (res.code === 403) {
+        toast.error("Admin access required to upload images")
       } else {
         toast.error(res.message ?? "Upload failed")
       }
-    } catch {
-      toast.error("Upload failed")
+    } catch (err) {
+      const msg =
+        err instanceof TypeError
+          ? "Network or CORS error. Ensure the API is reachable and CORS_ALLOWED_ORIGINS includes your site (e.g. https://www.khoj.com.pk) in backend .env."
+          : "Upload failed"
+      toast.error(msg)
     } finally {
       setUploading(false)
       e.target.value = ""

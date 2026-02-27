@@ -146,8 +146,11 @@ export default function EditProductPage() {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="mb-2 block text-xs uppercase tracking-wider text-muted-foreground">
-              Price (PKR) *
+              Sale price (PKR) *
             </label>
+            <p className="mb-2 text-[10px] text-muted-foreground">
+              The price customers pay. Set original price below to show a discount.
+            </p>
             <input
               type="number"
               min={0}
@@ -161,8 +164,11 @@ export default function EditProductPage() {
           </div>
           <div>
             <label className="mb-2 block text-xs uppercase tracking-wider text-muted-foreground">
-              Compare at price (PKR)
+              Original price (PKR)
             </label>
+            <p className="mb-2 text-[10px] text-muted-foreground">
+              Original price before discount. Must be &gt; sale price to show as sale.
+            </p>
             <input
               type="number"
               min={0}
@@ -174,6 +180,7 @@ export default function EditProductPage() {
                 }))
               }
               className="w-full border border-border bg-transparent px-4 py-3 text-sm outline-none focus:border-foreground"
+              placeholder="Optional"
             />
           </div>
         </div>
