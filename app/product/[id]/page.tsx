@@ -9,6 +9,7 @@ import {
   Minus,
   Plus,
   ChevronLeft,
+  ChevronRight,
   ArrowRight,
   Truck,
   RotateCcw,
@@ -174,6 +175,34 @@ export default function ProductDetailPage() {
                   className="object-cover"
                   priority
                 />
+                {product.images && product.images.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActiveImage(
+                          activeImage === 0 ? product.images!.length - 1 : activeImage - 1
+                        )
+                      }
+                      className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center bg-background/80 text-foreground transition-colors hover:bg-background"
+                      aria-label="Previous image"
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActiveImage(
+                          activeImage === product.images!.length - 1 ? 0 : activeImage + 1
+                        )
+                      }
+                      className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center bg-background/80 text-foreground transition-colors hover:bg-background"
+                      aria-label="Next image"
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </button>
+                  </>
+                )}
               </div>
               {product.images && product.images.length > 1 && (
                 <div className="flex gap-3">
@@ -351,17 +380,13 @@ export default function ProductDetailPage() {
                   />
                 </button>
                 {detailsOpen && (
-                  <ul className="space-y-2.5 pb-5">
-                    {(product.details ?? []).map((detail) => (
-                      <li
-                        key={detail}
-                        className="flex items-start gap-2 text-sm leading-relaxed text-muted-foreground"
-                      >
-                        <span className="mt-1.5 block h-1 w-1 shrink-0 bg-muted-foreground/50" />
-                        {detail}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="pb-5">
+                    {(product.details ?? []).length > 0 ? (
+                      <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+                        {(product.details ?? []).join("\n")}
+                      </p>
+                    ) : null}
+                  </div>
                 )}
               </div>
 

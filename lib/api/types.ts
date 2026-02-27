@@ -59,6 +59,15 @@ export interface SizeGuideEntry {
   shoulder: string
 }
 
+export interface Collection {
+  id: string
+  name: string
+  slug: string
+  image: string
+  sortOrder: number
+  count?: number
+}
+
 export interface ApiProduct {
   id: string
   name: string
@@ -66,6 +75,7 @@ export interface ApiProduct {
   price: number
   compareAtPrice: number | null
   category: string
+  collections?: string[]
   tags: string[]
   images: ProductImage[]
   description: string
@@ -82,6 +92,7 @@ export interface ProductListParams {
   page?: number
   limit?: number
   category?: string
+  collection?: string
   sort?: "newest" | "price-asc" | "price-desc" | "popular"
   search?: string
 }
@@ -92,6 +103,7 @@ export interface CreateProductRequest {
   price: number
   compareAtPrice?: number
   category: string
+  collectionIds?: string[]
   description?: string
   fabric?: string
   inStock?: boolean
@@ -109,6 +121,7 @@ export interface UpdateProductRequest {
   price?: number
   compareAtPrice?: number
   category?: string
+  collectionIds?: string[]
   description?: string
   fabric?: string
   inStock?: boolean

@@ -93,10 +93,11 @@ export async function apiClient<T>(
     const data: ApiResponse<T> = await res.json()
     return data
   } catch {
+    console.error(`[API] Failed to parse response from ${endpoint} (status: ${res.status})`)
     return {
       code: res.status,
       data: null,
-      message: "An unexpected error occurred.",
+      message: `Request failed (status: ${res.status})`,
     }
   }
 }

@@ -12,6 +12,7 @@ export const productsApi = {
     if (params?.page) searchParams.set("page", String(params.page))
     if (params?.limit) searchParams.set("limit", String(params.limit))
     if (params?.category) searchParams.set("category", params.category)
+    if (params?.collection) searchParams.set("collection", params.collection)
     if (params?.sort) searchParams.set("sort", params.sort)
     if (params?.search) searchParams.set("search", params.search)
     const qs = searchParams.toString()

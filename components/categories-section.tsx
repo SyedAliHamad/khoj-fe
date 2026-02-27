@@ -52,7 +52,7 @@ export function CategoriesSection() {
             {categories.map((cat) => (
               <Link
                 key={cat.slug}
-                href={`/collection?category=${cat.slug}`}
+                href={`/collection?collection=${cat.slug}`}
                 className="group relative overflow-hidden"
               >
                 <div className="relative aspect-[4/5] md:aspect-[3/4]">

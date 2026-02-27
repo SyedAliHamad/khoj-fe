@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
-import { Package, LogOut, LayoutDashboard, ImageIcon, ExternalLink } from "lucide-react"
+import { Package, LogOut, LayoutDashboard, ImageIcon, ExternalLink, Tags } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
 
 export default function AdminLayout({
@@ -80,6 +80,17 @@ export default function AdminLayout({
           >
             <Package className="h-4 w-4" />
             Products
+          </Link>
+          <Link
+            href="/admin/collections"
+            className={`flex items-center gap-3 px-4 py-3 text-sm transition-colors ${
+              pathname?.startsWith("/admin/collections")
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:bg-accent hover:text-foreground"
+            }`}
+          >
+            <Tags className="h-4 w-4" />
+            Collections
           </Link>
           <Link
             href="/admin/content"

@@ -82,7 +82,7 @@ export function ProductImagesField({
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
-            className="flex items-center gap-1.5 border border-border px-3 py-1.5 text-xs transition-colors hover:bg-muted disabled:opacity-50"
+            className="admin-input flex items-center gap-1.5 px-3 py-1.5 text-xs transition-colors hover:opacity-90 disabled:opacity-50"
           >
             <Upload className="h-3.5 w-3.5" />
             {uploading ? "Uploading..." : "Upload"}
@@ -90,7 +90,7 @@ export function ProductImagesField({
           <button
             type="button"
             onClick={addByUrl}
-            className="flex items-center gap-1.5 border border-border px-3 py-1.5 text-xs transition-colors hover:bg-muted"
+            className="admin-input flex items-center gap-1.5 px-3 py-1.5 text-xs transition-colors hover:opacity-90"
           >
             <Plus className="h-3.5 w-3.5" />
             Add URL
@@ -112,7 +112,7 @@ export function ProductImagesField({
             key={`${img.url}-${i}`}
             className="group relative flex flex-col gap-2"
           >
-            <div className="relative h-24 w-24 overflow-hidden border border-border bg-muted">
+            <div className="relative h-24 w-24 overflow-hidden border border-border bg-[hsl(var(--input-bg))]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={img.url.startsWith("http") ? img.url : img.url}
@@ -137,7 +137,7 @@ export function ProductImagesField({
               value={img.alt}
               onChange={(e) => updateAlt(i, e.target.value)}
               placeholder="Alt text"
-              className="w-24 border border-border bg-transparent px-2 py-1 text-[10px] outline-none focus:border-foreground"
+              className="admin-input w-24 px-2 py-1 text-[10px]"
             />
           </div>
         ))}

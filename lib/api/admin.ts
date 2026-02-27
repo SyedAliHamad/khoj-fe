@@ -57,6 +57,7 @@ export function toCreateProductRequest(form: {
   price: number
   compareAtPrice?: number
   category: string
+  collectionIds?: string[]
   description: string
   fabric: string
   inStock: boolean
@@ -73,6 +74,7 @@ export function toCreateProductRequest(form: {
     price: form.price,
     compareAtPrice: form.compareAtPrice || undefined,
     category: form.category,
+    collectionIds: form.collectionIds?.filter(Boolean) || undefined,
     description: form.description,
     fabric: form.fabric,
     inStock: form.inStock,

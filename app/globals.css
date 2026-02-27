@@ -30,6 +30,7 @@
     --input: 30 10% 88%;
     --ring: 30 10% 12%;
     --radius: 0rem;
+    --input-bg: 35 15% 95%;
     --sidebar-background: 40 20% 96%;
     --sidebar-foreground: 30 10% 12%;
     --sidebar-primary: 30 10% 12%;
@@ -48,4 +49,12 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Admin form inputs: distinct shade for editable fields */
+.admin-input {
+  @apply bg-[hsl(var(--input-bg))] border border-[hsl(var(--border))] transition-colors;
+}
+.admin-input:focus {
+  @apply outline-none ring-1 ring-foreground/20 border-foreground/40;
 }

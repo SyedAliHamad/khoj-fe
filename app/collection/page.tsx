@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
+import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Heart, SlidersHorizontal, X } from "lucide-react"
@@ -8,9 +9,10 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { useCart } from "@/lib/cart-context"
 import { productsApi } from "@/lib/api/products"
+import { collectionsApi } from "@/lib/api/collections"
 import { getProductImage, getProductPricing } from "@/lib/products"
 import { ProductPrice } from "@/components/product-price"
-import type { ApiProduct, CategoryInfo } from "@/lib/api/types"
+import type { ApiProduct, CategoryInfo, Collection } from "@/lib/api/types"
 
 const SORT_OPTIONS = [
   { value: "newest", label: "Newest" },
@@ -90,18 +92,32 @@ function CollectionProductCard({ product }: { product: ApiProduct }) {
   )
 }
 
-export default function CollectionPage() {
+function CollectionPageContent() {
+  const searchParams = useSearchParams()
+  const collectionParam = searchParams.get("collection")
+  const categoryParam = searchParams.get("category")
   const [products, setProducts] = useState<ApiProduct[]>([])
+  const [collections, setCollections] = useState<Collection[]>([])
   const [categories, setCategories] = useState<CategoryInfo[]>([])
-  const [activeFilter, setActiveFilter] = useState<string>("all")
+  const [activeFilter, setActiveFilter] = useState<string>(
+    () => collectionParam || categoryParam || "all"
+  )
   const [activeSort, setActiveSort] = useState("newest")
   const [showFilters, setShowFilters] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const isCollectionFilter = collections.some((c) => c.slug === activeFilter)
+
   useEffect(() => {
-    const params: { category?: string; sort?: string } = {}
-    if (activeFilter !== "all") params.category = activeFilter
+    const params: { category?: string; collection?: string; sort?: string } = {}
+    if (activeFilter !== "all") {
+      if (isCollectionFilter) {
+        params.collection = activeFilter
+      } else {
+        params.category = activeFilter
+      }
+    }
     params.sort = activeSort
 
     productsApi
@@ -115,21 +131,28 @@ export default function CollectionPage() {
       })
       .catch(() => setError("Failed to load products"))
       .finally(() => setIsLoading(false))
-  }, [activeFilter, activeSort])
+  }, [activeFilter, activeSort, isCollectionFilter])
 
   useEffect(() => {
-    productsApi
-      .categories()
-      .then((res) => {
-        if (res.code === 200 && res.data) {
-          setCategories(res.data)
-        }
-      })
-      .catch(() => {})
+    Promise.all([
+      collectionsApi.list(),
+      productsApi.categories(),
+    ]).then(([collRes, catRes]) => {
+      if (collRes.code === 200 && collRes.data) setCollections(collRes.data)
+      if (catRes.code === 200 && catRes.data) setCategories(catRes.data)
+    })
   }, [])
+
+  useEffect(() => {
+    const c = searchParams.get("collection")
+    const cat = searchParams.get("category")
+    if (c) setActiveFilter(c)
+    else if (cat) setActiveFilter(cat)
+  }, [searchParams])
 
   const filterOptions = [
     { value: "all", label: "All" },
+    ...collections.map((c) => ({ value: c.slug, label: c.name })),
     ...categories.map((c) => ({ value: c.slug, label: c.name })),
   ]
 
@@ -257,5 +280,19 @@ export default function CollectionPage() {
       </main>
       <SiteFooter />
     </div>
+  )
+}
+
+export default function CollectionPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="h-12 w-12 animate-spin rounded-full border-2 border-foreground border-t-transparent" />
+        </div>
+      }
+    >
+      <CollectionPageContent />
+    </Suspense>
   )
 }
